@@ -226,12 +226,11 @@ def create(filename, title, subtitle, flights, footer):
     n = min(len(flights), 5)
     if n == 0:
         img.save(filename, "PNG", quality=95)
-        print(f"OK {os.path.basename(filename)} | Uçuş bulunamadı")
+        print(f"OK {os.path.basename(filename)} | Ucus bulunamadi")
         return
     gap = 12  # Kartlar arasi bosluk azaltildi
-    info_h = 36
     footer_h = 100
-    avail = H - top - footer_h - (n - 1) * gap - info_h - 16
+    avail = H - top - footer_h - (n - 1) * gap
     ch = avail // n  # ch ~ 215px
 
     for i, fl in enumerate(flights):
@@ -308,8 +307,8 @@ def create(filename, title, subtitle, flights, footer):
         c2_w = price_x - 24 - c2_x  # fiyat kutusuna kadar
         c2_cx = c2_x + c2_w // 2
 
-        # ALT BILGI SATIRI (kart disinda, sol ve sag kutularin altinda)
-        info_y = cy + ch + 16
+        # ALT BILGI SATIRI (kart altinda sabit)
+        info_y = cy + ch - 48
         info_h = 36
 
         # SAAT KUTULARI (info row ustunde, 16px gap)
@@ -378,25 +377,30 @@ def create(filename, title, subtitle, flights, footer):
         d.text((t2_x + time_w // 2, time_y + 12), "VARIS", font=ff(9, "b"), fill=TEXT_3, anchor='mm')
         d.text((t2_x + time_w // 2, time_y + 34), legs[-1]['ta'], font=ff(24, "bl"), fill=BLACK, anchor='mm')
 
-        # === ALT BILGI SATIRI (2: Sure, Ekonomi - genis, saydam renkli, ortali) ===
-        ix_end = price_x - 24
-        n_info = 2
-        gap_info = 20
-        total_info_w = ix_end - cx - pad
-        info_item_w = (total_info_w - gap_info) // n_info
-        # Ortala
-        ix = cx + pad + (total_info_w - (info_item_w * n_info + gap_info * (n_info - 1))) // 2
+        # === ALT BILGI SATIRI (2: Sure, Ekonomi - kart icinde, sol ve sag kutularin altinda ortada) ===
+        info_y = cy + ch - 48
+        info_h = 36
+
+        # Sol kutu ve sag kutunun altinda, ortada hizalı
+        middle_left = c1_x + c1_w
+        middle_right = price_x
+        middle_center = (middle_left + middle_right) // 2
+
+        # 2 kutu, aralarinda 20px bosluk, ortada
+        box_w = 120
+        gap = 20
+        pair_w = 2 * box_w + gap
+        start_x = middle_center - pair_w // 2
 
         # Sure - saydam renkli (yesil tonu)
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(220, 240, 230))
-        icon(d, ix + 10, info_y + 8, 'clock', GREEN)
-        d.text((ix + 34, info_y + info_h // 2), fl['dur'], font=ff(13, 'b'), fill=(20, 100, 60), anchor='lm')
-        ix += info_item_w + gap_info
+        rr(d, (start_x, info_y, start_x + box_w, info_y + info_h), 12, fill=(220, 240, 230))
+        icon(d, start_x + 10, info_y + 8, 'clock', GREEN)
+        d.text((start_x + 34, info_y + info_h // 2), fl['dur'], font=ff(13, 'b'), fill=(20, 100, 60), anchor='lm')
 
         # Ekonomi - saydam renkli (mavi tonu)
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(220, 230, 245))
-        icon(d, ix + 10, info_y + 8, 'seat', BLUE)
-        d.text((ix + 34, info_y + info_h // 2), fl['cabin'], font=ff(13, 'b'), fill=(20, 60, 120), anchor='lm')
+        rr(d, (start_x + box_w + gap, info_y, start_x + box_w + gap + box_w, info_y + info_h), 12, fill=(220, 230, 245))
+        icon(d, start_x + box_w + gap + 10, info_y + 8, 'seat', BLUE)
+        d.text((start_x + box_w + gap + 34, info_y + info_h // 2), fl['cabin'], font=ff(13, 'b'), fill=(20, 60, 120), anchor='lm')
 
     # === FOOTER ===
     fy = H - 80
