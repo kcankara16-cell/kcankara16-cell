@@ -204,25 +204,21 @@ def create(filename, title, subtitle, flights, footer):
 
     # Title - logo ile 8-10px fazla bosluk
     d.text((ML + 108, 30), title, font=ff(32, 'b'), fill=BLACK, anchor='lm')
-    d.text((ML + 108, 72), subtitle, font=ff(14, 'l'), fill=TEXT_3, anchor='lm')
 
-    # Right info
-    rr(d, (W - MR - 180, 24, W - MR, 56), 12, fill=DIV_2, outline=DIV, width=1)
-    d.text((W - MR - 90, 40), "FLIGHTLIST.IO", font=ff(11, 'b'), fill=BLACK, anchor='mm')
-    rr(d, (W - MR - 180, 64, W - MR, 96), 12, fill=WHITE, outline=GOLD, width=1)
-    d.text((W - MR - 90, 80), "1 Yetişkin · Ekonomi", font=ff(10, 'l'), fill=TEXT_2, anchor='mm')
+    # Subtitle - belirgin, buyuk
+    d.text((ML + 108, 66), "HAFTALIK", font=ff(11, 'b'), fill=GOLD, anchor='lm')
+    d.text((ML + 108, 86), subtitle, font=ff(17, 'b'), fill=TEXT_2, anchor='lm')
 
-    # Legend
-    ly = 118
-    d.text((ML, ly), "Fiyat Durumu:", font=ff(10, 'b'), fill=TEXT_2, anchor='lm')
-    lx = ML + 100
-    for c, l in [(GREEN, "En Ucuz"), (BLUE, "Uygun"), (PURPLE, "Orta"), (ORANGE, "Yüksek"), (RED, "En Pahalı")]:
-        d.ellipse([lx, ly - 4, lx + 12, ly + 8], fill=c)
-        d.text((lx + 16, ly + 2), l, font=ff(10, 'b'), fill=TEXT_2, anchor='lm')
-        lx += 88
+    # Right info - temiz, sade
+    rr(d, (W - MR - 170, 28, W - MR, 58), 12, fill=GOLD_LIGHT, outline=GOLD, width=1)
+    d.text((W - MR - 85, 43), "HAFTALIK", font=ff(12, 'b'), fill=DARK_GREEN, anchor='mm')
+
+    rr(d, (W - MR - 170, 66, W - MR, 96), 12, fill=DIV_2, outline=DIV, width=1)
+    d.text((W - MR - 85, 72), "1 Yetişkin", font=ff(13, 'b'), fill=BLACK, anchor='mm')
+    d.text((W - MR - 85, 90), "Ekonomi Sınıfı", font=ff(11, 'l'), fill=TEXT_2, anchor='mm')
 
     # === CARDS ===
-    top = 148
+    top = 118
     n = min(len(flights), 5)
     if n == 0:
         img.save(filename, "PNG", quality=95)
