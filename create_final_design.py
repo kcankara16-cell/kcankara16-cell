@@ -377,25 +377,25 @@ def create(filename, title, subtitle, flights, footer):
         d.text((t2_x + time_w // 2, time_y + 12), "VARIS", font=ff(9, "b"), fill=TEXT_3, anchor='mm')
         d.text((t2_x + time_w // 2, time_y + 34), legs[-1]['ta'], font=ff(24, "bl"), fill=BLACK, anchor='mm')
 
-        # === ALT BILGI SATIRI (2: Sure, Ekonomi - saydam renkli, ortali) ===
+        # === ALT BILGI SATIRI (2: Sure, Ekonomi - genis, saydam renkli, ortali) ===
         ix_end = price_x - 24
         n_info = 2
-        gap_info = 12
+        gap_info = 20
         total_info_w = ix_end - cx - pad
         info_item_w = (total_info_w - gap_info) // n_info
         # Ortala
         ix = cx + pad + (total_info_w - (info_item_w * n_info + gap_info * (n_info - 1))) // 2
 
-        # Sure - saydam renkli kutu
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(245, 246, 250))
-        icon(d, ix + 10, info_y + 8, 'clock', TEXT_2)
-        d.text((ix + 34, info_y + info_h // 2), fl['dur'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
+        # Sure - saydam renkli (yesil tonu)
+        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(220, 240, 230))
+        icon(d, ix + 10, info_y + 8, 'clock', GREEN)
+        d.text((ix + 34, info_y + info_h // 2), fl['dur'], font=ff(13, 'b'), fill=(20, 100, 60), anchor='lm')
         ix += info_item_w + gap_info
 
-        # Ekonomi - saydam renkli kutu
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(245, 246, 250))
-        icon(d, ix + 10, info_y + 8, 'seat', TEXT_2)
-        d.text((ix + 34, info_y + info_h // 2), fl['cabin'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
+        # Ekonomi - saydam renkli (mavi tonu)
+        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(220, 230, 245))
+        icon(d, ix + 10, info_y + 8, 'seat', BLUE)
+        d.text((ix + 34, info_y + info_h // 2), fl['cabin'], font=ff(13, 'b'), fill=(20, 60, 120), anchor='lm')
 
     # === FOOTER ===
     fy = H - 80
