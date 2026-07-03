@@ -272,16 +272,18 @@ def create(filename, title, subtitle, flights, footer):
         rr(d, (c1_x, c1_y, c1_x + c1_w, c1_y + c1_h), 18, fill=pc)
 
         # Ust: Havayolu ismi (kucuk, ince)
-        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 - 28), an, font=ff(13, 'b'), fill=(255, 255, 255, 220), anchor='mm')
+        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 - 32), an, font=ff(13, 'b'), fill=(255, 255, 255, 220), anchor='mm')
 
         # Orta: Havayolu kodu (buyuk, kalin)
-        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2), fl['codes'], font=ff(38, 'bl'), fill=WHITE, anchor='mm')
+        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 - 4), fl['codes'], font=ff(38, 'bl'), fill=WHITE, anchor='mm')
 
-        # Alt: Direkt / Aktarma etiketi - kart icinde, esit bosluklu
-        if stops == 0:
-            d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 + 28), "Direkt", font=ff(13, 'b'), fill=(255, 255, 255, 230), anchor='mm')
-        else:
-            d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 + 28), fl['stype'], font=ff(13, 'b'), fill=(255, 255, 255, 230), anchor='mm')
+        # Alt: Direkt Uçuş yazisi - buton stili
+        btn_lbl = "Direkt Uçuş" if stops == 0 else fl['stype']
+        btn_w = 110
+        btn_x = c1_x + c1_w // 2 - btn_w // 2
+        btn_y = c1_y + c1_h // 2 + 16
+        rr(d, (btn_x, btn_y, btn_x + btn_w, btn_y + 26), 8, fill=(255, 255, 255))
+        d.text((c1_x + c1_w // 2, btn_y + 13), btn_lbl, font=ff(12, 'b'), fill=pc, anchor='mm')
 
         # ==============================================================
         # COL 3: SAG - Fiyat kutusu (tam saga yasli, dikey ortali)
@@ -375,26 +377,25 @@ def create(filename, title, subtitle, flights, footer):
         d.text((t2_x + time_w // 2, time_y + 12), "VARIS", font=ff(9, "b"), fill=TEXT_3, anchor='mm')
         d.text((t2_x + time_w // 2, time_y + 34), legs[-1]['ta'], font=ff(24, "bl"), fill=BLACK, anchor='mm')
 
-        # === ALT BILGI SATIRI (Sadece 3: Sure, Ekonomi, Bagaj) ===
-        ix = cx + pad
-        ix_end = price_x - 24  # fiyat kutusuna kadar
-        n_info = 3
+        # === ALT BILGI SATIRI (2: Sure, Ekonomi - saydam renkli, ortali) ===
+        ix_end = price_x - 24
+        n_info = 2
         gap_info = 12
-        info_item_w = (ix_end - ix - gap_info * (n_info - 1)) // n_info
+        total_info_w = ix_end - cx - pad
+        info_item_w = (total_info_w - gap_info) // n_info
+        # Ortala
+        ix = cx + pad + (total_info_w - (info_item_w * n_info + gap_info * (n_info - 1))) // 2
 
-        # Sure - saydam, sadece ikon + yazi
+        # Sure - saydam renkli kutu
+        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(245, 246, 250))
         icon(d, ix + 10, info_y + 8, 'clock', TEXT_2)
         d.text((ix + 34, info_y + info_h // 2), fl['dur'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
         ix += info_item_w + gap_info
 
-        # Ekonomi - saydam, sadece ikon + yazi
+        # Ekonomi - saydam renkli kutu
+        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=(245, 246, 250))
         icon(d, ix + 10, info_y + 8, 'seat', TEXT_2)
         d.text((ix + 34, info_y + info_h // 2), fl['cabin'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
-        ix += info_item_w + gap_info
-
-        # Bagaj - saydam, sadece ikon + yazi
-        icon(d, ix + 10, info_y + 8, 'bag', TEXT_2)
-        d.text((ix + 34, info_y + info_h // 2), fl['bagaj'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
 
     # === FOOTER ===
     fy = H - 80
