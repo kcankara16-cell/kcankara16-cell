@@ -229,8 +229,9 @@ def create(filename, title, subtitle, flights, footer):
         print(f"OK {os.path.basename(filename)} | Uçuş bulunamadı")
         return
     gap = 12  # Kartlar arasi bosluk azaltildi
+    info_h = 36
     footer_h = 100
-    avail = H - top - footer_h - (n - 1) * gap
+    avail = H - top - footer_h - (n - 1) * gap - info_h - 16
     ch = avail // n  # ch ~ 215px
 
     for i, fl in enumerate(flights):
@@ -307,8 +308,8 @@ def create(filename, title, subtitle, flights, footer):
         c2_w = price_x - 24 - c2_x  # fiyat kutusuna kadar
         c2_cx = c2_x + c2_w // 2
 
-        # ALT BILGI SATIRI (kart altinda sabit)
-        info_y = cy + ch - 48
+        # ALT BILGI SATIRI (kart disinda, sol ve sag kutularin altinda)
+        info_y = cy + ch + 16
         info_h = 36
 
         # SAAT KUTULARI (info row ustunde, 16px gap)
