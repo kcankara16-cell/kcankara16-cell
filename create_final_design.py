@@ -66,7 +66,7 @@ AIRLINES = {
 }
 
 AIRPORTS = {
-    'IST': 'Istanbul', 'SAW': 'Istanbul', 'ESB': 'Ankara', 'ADB': 'Izmir',
+    'IST': 'Istanbul', 'SAW': 'Istanbul SAW', 'ESB': 'Ankara', 'ADB': 'Izmir',
     'TZX': 'Trabzon', 'RZV': 'Rize-Artvin', 'AYT': 'Antalya',
     'JED': 'Cidde', 'MED': 'Medine', 'ATH': 'Atina',
     'CAI': 'Kahire', 'RUH': 'Riyad', 'DMM': 'Dammam', 'AMM': 'Amman',
@@ -271,11 +271,17 @@ def create(filename, title, subtitle, flights, footer):
         # Sol kutu - fiyat kutusuyla ayni radius ve stil
         rr(d, (c1_x, c1_y, c1_x + c1_w, c1_y + c1_h), 18, fill=pc)
 
-        # Havayolu kodu (ortada, buyuk)
-        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 - 12), fl['codes'], font=ff(38, 'b'), fill=WHITE, anchor='mm')
+        # Ust: Havayolu ismi (kucuk, ince)
+        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 - 28), an, font=ff(13, 'b'), fill=(255, 255, 255, 220), anchor='mm')
 
-        # Havayolu ismi (alt kisimda, kucuk puntolu)
-        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 + 22), an, font=ff(11, 'b'), fill=(255, 255, 255, 220), anchor='mm')
+        # Orta: Havayolu kodu (buyuk, kalin)
+        d.text((c1_x + c1_w // 2, c1_y + c1_h // 2), fl['codes'], font=ff(38, 'bl'), fill=WHITE, anchor='mm')
+
+        # Alt: Direkt / Aktarma etiketi - kart icinde, esit bosluklu
+        if stops == 0:
+            d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 + 28), "Direkt", font=ff(13, 'b'), fill=(255, 255, 255, 230), anchor='mm')
+        else:
+            d.text((c1_x + c1_w // 2, c1_y + c1_h // 2 + 28), fl['stype'], font=ff(13, 'b'), fill=(255, 255, 255, 230), anchor='mm')
 
         # ==============================================================
         # COL 3: SAG - Fiyat kutusu (tam saga yasli, dikey ortali)
@@ -291,9 +297,8 @@ def create(filename, title, subtitle, flights, footer):
         d.text((price_x + price_w // 2, price_y + price_h // 2 - 20), pv, font=ff(46, "bl"), fill=WHITE, anchor='mm')
         # TL - fiyatin altinda, ortali
         d.text((price_x + price_w // 2, price_y + price_h // 2 + 12), "TL", font=ff(20, "b"), fill=(255, 255, 255, 230), anchor='mm')
-        # Baslayan Fiyatlarla - TL'nin altinda, buyuk ve kontrastli
-        d.text((price_x + price_w // 2, price_y + price_h // 2 + 36), "Baslayan", font=ff(13, "b"), fill=WHITE, anchor='mm')
-        d.text((price_x + price_w // 2, price_y + price_h // 2 + 52), "Fiyatlarla", font=ff(13, "b"), fill=WHITE, anchor='mm')
+        # Baslayan Fiyatlarla - buyuk, Medium, kontrastli, kutunun en altina yakin
+        d.text((price_x + price_w // 2, price_y + price_h - 32), "Baslayan Fiyatlarla", font=ff(18, "r"), fill=WHITE, anchor='mm')
 
         # === COL 2: ORTA - Tarih + Rota + Saat (kart merkezi) ===
         c2_x = c1_x + c1_w + 24
@@ -377,20 +382,17 @@ def create(filename, title, subtitle, flights, footer):
         gap_info = 12
         info_item_w = (ix_end - ix - gap_info * (n_info - 1)) // n_info
 
-        # Sure
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=BG_CARD)
+        # Sure - saydam, sadece ikon + yazi
         icon(d, ix + 10, info_y + 8, 'clock', TEXT_2)
         d.text((ix + 34, info_y + info_h // 2), fl['dur'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
         ix += info_item_w + gap_info
 
-        # Ekonomi
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=BG_CARD)
+        # Ekonomi - saydam, sadece ikon + yazi
         icon(d, ix + 10, info_y + 8, 'seat', TEXT_2)
         d.text((ix + 34, info_y + info_h // 2), fl['cabin'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
         ix += info_item_w + gap_info
 
-        # Bagaj
-        rr(d, (ix, info_y, ix + info_item_w, info_y + info_h), 12, fill=BG_CARD)
+        # Bagaj - saydam, sadece ikon + yazi
         icon(d, ix + 10, info_y + 8, 'bag', TEXT_2)
         d.text((ix + 34, info_y + info_h // 2), fl['bagaj'], font=ff(12, 'b'), fill=BLACK, anchor='lm')
 
