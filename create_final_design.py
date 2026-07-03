@@ -66,7 +66,7 @@ AIRLINES = {
 }
 
 AIRPORTS = {
-    'IST': 'İstanbul', 'SAW': 'İstanbul SAW', 'ESB': 'Ankara', 'ADB': 'İzmir',
+    'IST': 'İstanbul', 'SAW': 'İstanbul SAW', 'ESB': 'Ankara', 'ADB': 'İzmir', 'KYA': 'Konya',
     'TZX': 'Trabzon', 'RZV': 'Rize-Artvin', 'AYT': 'Antalya',
     'JED': 'Cidde', 'MED': 'Medine', 'ATH': 'Atina',
     'CAI': 'Kahire', 'RUH': 'Riyad', 'DMM': 'Dammam', 'AMM': 'Amman',
@@ -130,7 +130,7 @@ def icon(d, x, y, t, c):
 
 def fetch(fr, to):
     h = {'User-Agent': 'Mozilla/5.0', 'Referer': 'https://www.flightlist.io/'}
-    p = {'fly_from': fr, 'fly_to': to, 'date_from': '02/07/2026', 'date_to': '31/12/2026',
+    p = {'fly_from': fr, 'fly_to': to, 'date_from': '03/07/2026', 'date_to': '13/07/2026',
          'adults': '1', 'curr': 'TRY', 'limit': '100', 'sort': 'price', 'flight_type': 'oneway',
          'adult_hand_bag': '0', 'adult_hold_bag': '0'}
     r = requests.get('https://www.flightlist.io/api/search.php', params=p, headers=h, timeout=60)
@@ -185,6 +185,7 @@ def parse(flights, stops=None):
             'cabin': 'Ekonomi', 'bagaj': 'Dahil Değil',
             'terminal': 'Belirtilmemiş', 'sefer': 'Belirtilmemiş',
         })
+    out.sort(key=lambda x: x['price'])
     return out[:5]
 
 
