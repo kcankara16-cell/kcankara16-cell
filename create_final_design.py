@@ -66,15 +66,15 @@ AIRLINES = {
 }
 
 AIRPORTS = {
-    'IST': 'Istanbul', 'SAW': 'Istanbul SAW', 'ESB': 'Ankara', 'ADB': 'Izmir',
+    'IST': 'İstanbul', 'SAW': 'İstanbul SAW', 'ESB': 'Ankara', 'ADB': 'İzmir',
     'TZX': 'Trabzon', 'RZV': 'Rize-Artvin', 'AYT': 'Antalya',
     'JED': 'Cidde', 'MED': 'Medine', 'ATH': 'Atina',
     'CAI': 'Kahire', 'RUH': 'Riyad', 'DMM': 'Dammam', 'AMM': 'Amman',
     'KWI': 'Kuveyt', 'DOH': 'Doha', 'AUH': 'Abu Dabi',
 }
 
-MONTHS = ['', 'Ocak', 'Subat', 'Mart', 'Nisan', 'Mayis', 'Haziran',
-          'Temmuz', 'Agustos', 'Eylul', 'Ekim', 'Kasim', 'Aralik']
+MONTHS = ['', 'Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran',
+          'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık']
 
 
 def get_airport(code): return AIRPORTS.get(code, code)
@@ -167,7 +167,7 @@ def parse(flights, stops=None):
                 'tn': get_airport(r.get('flyTo')),
                 'td': td, 'ta': ta, 'ac': ac, 'an': an, 'cr': acr
             })
-        stype = "Direkt" if n == 0 else f"{n} Aktarma"
+        stype = "Direkt" if n == 0 else f"{n} Aktarmalı"
         date_str = fmt_date(first.get('local_departure', '').split('T')[0])
         waits = []
         for i in range(len(rts) - 1):
@@ -182,8 +182,8 @@ def parse(flights, stops=None):
             'stype': stype, 'date': date_str,
             'dur': fmt_dur(tot),
             'waits': [fmt_wait(w) for w in waits],
-            'cabin': 'Ekonomi', 'bagaj': 'Dahil Degil',
-            'terminal': 'Belirtilmemis', 'sefer': 'Belirtilmemis',
+            'cabin': 'Ekonomi', 'bagaj': 'Dahil Değil',
+            'terminal': 'Belirtilmemiş', 'sefer': 'Belirtilmemiş',
         })
     return out[:5]
 
@@ -210,13 +210,13 @@ def create(filename, title, subtitle, flights, footer):
     rr(d, (W - MR - 180, 24, W - MR, 56), 12, fill=DIV_2, outline=DIV, width=1)
     d.text((W - MR - 90, 40), "FLIGHTLIST.IO", font=ff(11, 'b'), fill=BLACK, anchor='mm')
     rr(d, (W - MR - 180, 64, W - MR, 96), 12, fill=WHITE, outline=GOLD, width=1)
-    d.text((W - MR - 90, 80), "1 Yetiskin · Ekonomi", font=ff(10, 'l'), fill=TEXT_2, anchor='mm')
+    d.text((W - MR - 90, 80), "1 Yetişkin · Ekonomi", font=ff(10, 'l'), fill=TEXT_2, anchor='mm')
 
     # Legend
     ly = 118
     d.text((ML, ly), "Fiyat Durumu:", font=ff(10, 'b'), fill=TEXT_2, anchor='lm')
     lx = ML + 100
-    for c, l in [(GREEN, "En Ucuz"), (BLUE, "Uygun"), (PURPLE, "Orta"), (ORANGE, "Yuksek"), (RED, "En Pahali")]:
+    for c, l in [(GREEN, "En Ucuz"), (BLUE, "Uygun"), (PURPLE, "Orta"), (ORANGE, "Yüksek"), (RED, "En Pahalı")]:
         d.ellipse([lx, ly - 4, lx + 12, ly + 8], fill=c)
         d.text((lx + 16, ly + 2), l, font=ff(10, 'b'), fill=TEXT_2, anchor='lm')
         lx += 88
@@ -226,7 +226,7 @@ def create(filename, title, subtitle, flights, footer):
     n = min(len(flights), 5)
     if n == 0:
         img.save(filename, "PNG", quality=95)
-        print(f"OK {os.path.basename(filename)} | Ucus bulunamadi")
+        print(f"OK {os.path.basename(filename)} | Uçuş bulunamadı")
         return
     gap = 12  # Kartlar arasi bosluk azaltildi
     footer_h = 100
@@ -298,7 +298,7 @@ def create(filename, title, subtitle, flights, footer):
         # TL - fiyatin altinda, ortali
         d.text((price_x + price_w // 2, price_y + price_h // 2 + 12), "TL", font=ff(20, "b"), fill=(255, 255, 255, 230), anchor='mm')
         # Baslayan Fiyatlarla - buyuk, Medium, kontrastli, kutunun en altina yakin
-        d.text((price_x + price_w // 2, price_y + price_h - 32), "Baslayan Fiyatlarla", font=ff(18, "r"), fill=WHITE, anchor='mm')
+        d.text((price_x + price_w // 2, price_y + price_h - 32), "Başlayan Fiyatlarla", font=ff(18, "r"), fill=WHITE, anchor='mm')
 
         # === COL 2: ORTA - Tarih + Rota + Saat (kart merkezi) ===
         c2_x = c1_x + c1_w + 24
@@ -401,12 +401,12 @@ def create(filename, title, subtitle, flights, footer):
     d.line([(ML, fy), (W - MR, fy)], fill=DIV, width=1)
 
     # Center
-    d.text((W // 2, fy + 16), "GUNCELLEME:", font=ff(10, 'b'), fill=TEXT_3, anchor='mm')
+    d.text((W // 2, fy + 16), "GÜNCELLEME:", font=ff(10, 'b'), fill=TEXT_3, anchor='mm')
     d.text((W // 2, fy + 34), "2 TEMMUZ 2026", font=ff(14, 'b'), fill=BLACK, anchor='mm')
 
     # Right
-    d.text((W - MR, fy + 16), "TRY · TEK YON · EKONOMI", font=ff(10, 'b'), fill=TEXT_3, anchor='rm')
-    d.text((W - MR, fy + 34), "GUNCEL FIYATLAR", font=ff(14, 'b'), fill=BLACK, anchor='rm')
+    d.text((W - MR, fy + 16), "TRY · TEK YÖN · EKONOMİ", font=ff(10, 'b'), fill=TEXT_3, anchor='rm')
+    d.text((W - MR, fy + 34), "GÜNCEL FİYATLAR", font=ff(14, 'b'), fill=BLACK, anchor='rm')
 
     # Bottom note
     d.text((W // 2, H - 24), footer, font=ff(10, 'l'), fill=TEXT_3, anchor='mm')
@@ -432,12 +432,12 @@ m_akt = parse(m_all, 1)
 
 b = r"C:\Users\birlikgrup\Desktop\proje"
 
-c_footer = "Cidde Havalimani'ndan Mekke'ye ~90 km · ulasim 1-1,5 saat"
-m_footer = "Medine Havalimani'ndan Mescid-i Nebevi'ye ~20 km · ulasim 20-30 dk"
+c_footer = "Cidde Havâlimanı'ndan Mekke'ye ~90 km · ulaşım 1-1,5 saat"
+m_footer = "Medine Havâlimanı'ndan Mescid-i Nebevi'ye ~20 km · ulaşım 20-30 dk"
 
-create(f"{b}\\01-cidde-direkt.png", "Turkiye → Cidde (JED)", "En Ucuz 5 Direkt Ucusu", c_dir, c_footer)
-create(f"{b}\\02-medine-direkt.png", "Turkiye → Medine (MED)", "En Ucuz 5 Direkt Ucusu", m_dir, m_footer)
-create(f"{b}\\03-cidde-aktarmali.png", "Turkiye → Cidde (JED)", "En Ucuz 5 Aktarmali Ucusu", c_akt, c_footer)
-create(f"{b}\\04-medine-aktarmali.png", "Turkiye → Medine (MED)", "En Ucuz 5 Aktarmali Ucusu", m_akt, m_footer)
+create(f"{b}\\01-cidde-direkt.png", "Türkiye → Cidde (JED)", "En Ucuz 5 Direkt Uçuşu", c_dir, c_footer)
+create(f"{b}\\02-medine-direkt.png", "Türkiye → Medine (MED)", "En Ucuz 5 Direkt Uçuşu", m_dir, m_footer)
+create(f"{b}\\03-cidde-aktarmali.png", "Türkiye → Cidde (JED)", "En Ucuz 5 Aktarmalı Uçuşu", c_akt, c_footer)
+create(f"{b}\\04-medine-aktarmali.png", "Türkiye → Medine (MED)", "En Ucuz 5 Aktarmalı Uçuşu", m_akt, m_footer)
 
 print("Tamamlandi!")
